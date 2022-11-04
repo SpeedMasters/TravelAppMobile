@@ -10,6 +10,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  final password = TextEditingController();
+  final email= TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
                       ), //alignment: ,
                     ),
                     TextFormField(
+                      controller: email,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                           labelText: "E-mail",
@@ -64,6 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 20,
                     ),
                     TextFormField(
+                      controller: password,
                       obscureText: true,
                       //keyboardType: TextInputType.streetAddress,
                       decoration: InputDecoration(
@@ -98,6 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                                 fontStyle: FontStyle.italic,
                                 fontSize: 20)), //styleFrom
                         onPressed: () {
+
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -121,11 +128,15 @@ class _LoginPageState extends State<LoginPage> {
                                 fontStyle: FontStyle.italic,
                                 color: Color.fromARGB(255, 54, 20, 7))),
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: ((context) =>
-                                      const RegisterPage())));
+                          if (email.text=="messi@gmail.com" && password.text == "messi123") {
+                              {
+                                Navigator.pushReplacement(
+                                    context, MaterialPageRoute(builder: ((
+                                    context) => const RegisterPage())));
+                              }
+                            }else {
+                              _showMyDialog(context);
+                            }
                         },
                         child: const Text(
                           "Registrarse",
@@ -142,5 +153,22 @@ class _LoginPageState extends State<LoginPage> {
             ),
           )),
     );
+
+
+
   }
+  Future<void> _showMyDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      builder: (_) => _buildAlertDialog(),
+    );
+  }}
+
+Widget _buildAlertDialog() {
+  return const AlertDialog(
+    title:Text("Datos de usuario o contraseña incorrectos"),
+    content:
+    Text("Verifique sus datos e intente nuevamente"),
+  );
 }
+
